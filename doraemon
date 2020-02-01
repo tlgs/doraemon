@@ -1,0 +1,72 @@
+#!/bin/bash
+
+
+version='0.1.0'
+dependencies=( curl jq shuf tput )
+
+
+die () {
+    printf '%s\n' "$1" >&2
+    exit 1
+}
+
+show_help () {
+    echo "doraemon $version, el gato cosmico"
+    echo 'Collect a random item from your Pocket List'
+    echo
+    echo 'Usage: doraemon [-hv]'
+    echo
+    echo '    -h, --help        display this help message and exit'
+    echo '    -v, --version     display version and exit'
+}
+
+
+case $1 in
+    -h|--help)
+        show_help
+        exit
+        ;;
+    -v|--version)
+        echo "$version"
+        exit
+        ;;
+    -?*)
+        die "ERROR: unknown option $1"
+        ;;
+    '')
+        ;;
+    *)
+        die "ERROR: program takes no arguments"
+esac
+
+
+for dep in "${dependencies[@]}"; do
+    if ! command -v "$dep" >/dev/null; then
+        die "ERROR: $dep not installed"
+    fi
+done
+
+
+if ! [[ -v POCKET_CONSUMER_KEY && -v POCKET_ACCESS_TOKEN ]]; then
+    die 'ERROR: required environment variables not set'	
+fi
+
+
+target='https://getpocket.com/v3/get'
+target+="?consumer_key=$POCKET_CONSUMER_KEY"
+target+="&access_token=$POCKET_ACCESS_TOKEN"
+
+declare -a arr
+readarray -t arr <<< "$(
+    curl -s "$target" |
+    jq -c '.list | .[] | {id: .item_id, title: .resolved_title}' |
+    shuf -n 1 |
+    jq -r '.id, .title'
+)"
+
+tput setaf "$(shuf -i 214-231 -n 1)"
+echo "${arr[1]}"
+printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
+tput sgr0
+
+echo -e "https://app.getpocket.com/read/${arr[0]}\n"
