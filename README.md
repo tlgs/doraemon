@@ -8,16 +8,13 @@ Simple wrapper Bash script around [curl](https://curl.haxx.se/) and
 ## Usage
 
 1. Ensure you have the `POCKET_CONSUMER_KEY` and `POCKET_ACCESS_TOKEN`
-   environment variables set (follow the [Pocket API](https://getpocket.com/developer/)
-   documentation to get yours).
+   environment variables set (follow the
+   [Pocket API documentation](https://getpocket.com/developer/)
+   to get yours).
 
-2. Put the script somewhere in your `PATH`, or symlink to it:
+2. Put the script somewhere in your `PATH`.
 
-    ```console
-    ln -s /path/to/this/repo/doraemon ~/bin/doraemon
-    ```
-
-3. Run the utlity as normal:
+3. Run the utility as normal:
 
    ```console
    $ doraemon
