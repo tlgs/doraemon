@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-version='0.1.0'
+version='0.2.0'
 dependencies=( curl jq shuf tput )
 
 
@@ -11,13 +11,16 @@ die () {
 }
 
 show_help () {
-    echo "doraemon $version, el gato cosmico"
-    echo 'Collect a random item from your Pocket List'
-    echo
-    echo 'Usage: doraemon [-hv]'
-    echo
-    echo '    -h, --help        display this help message and exit'
-    echo '    -v, --version     display version and exit'
+    cat <<-FIN
+doraemon $version, el gato cosmico
+Collect a random item from your Pocket List
+
+Usage: doraemon [-hb]
+
+    -h, --help        display this help message and exit
+    -b, --browser     open item in your preferred \$BROWSER
+
+FIN
 }
 
 
@@ -26,10 +29,12 @@ case $1 in
         show_help
         exit
         ;;
-    -v|--version)
-        echo "$version"
-        exit
-        ;;
+    -b|--browser)
+	if ! [[ -v BROWSER ]]; then
+	    die 'ERROR: BROWSER environment variable not set'
+	fi
+        run_browser=true
+	;;
     -?*)
         die "ERROR: unknown option $1"
         ;;
@@ -64,9 +69,20 @@ readarray -t arr <<< "$(
     jq -r '.id, .title'
 )"
 
-tput setaf "$(shuf -i 214-231 -n 1)"
-echo "${arr[1]}"
-printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
-tput sgr0
+item_url="https://app.getpocket.com/read/${arr[0]}"
 
-echo -e "https://app.getpocket.com/read/${arr[0]}\n"
+
+if [[ "$run_browser" = true ]]; then
+    "$BROWSER" "$item_url" 2>/dev/null
+
+elif [[ -t 1 ]]; then
+    tput setaf "$(shuf -i 214-231 -n 1)"
+    echo "${arr[1]}"
+    printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
+    tput sgr0
+    echo -e "$item_url\n"
+
+else
+    echo "$item_url"
+
+fi
