@@ -23,13 +23,13 @@ Simple wrapper Bash script around [curl](https://curl.haxx.se/) and
    https://app.getpocket.com/read/2859972659
 
    $ doraemon -h
-   doraemon 0.1.0, el gato cosmico
+   doraemon 0.2.0, el gato cosmico
    Collect a random item from your Pocket List
 
-   Usage: doraemon [-hv]
+   Usage: doraemon [-hb]
 
        -h, --help        display this help message and exit
-       -v, --version     display version and exit
+       -b, --browser     open item in your preferred $BROWSER
 
    ```
 
