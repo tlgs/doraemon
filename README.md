@@ -2,7 +2,7 @@
 
 Collect a random item from your [Pocket](https://getpocket.com) List.
 
-Simple wrapper Bash script around [curl](https://curl.haxx.se/) and
+Simple Bash script built with [curl](https://curl.haxx.se/) and
 [jq](https://stedolan.github.io/jq/).
 
 ## Usage
@@ -33,5 +33,5 @@ Simple wrapper Bash script around [curl](https://curl.haxx.se/) and
 
    ```
 
-Tip: on most terminal emulators, you can <kbd>Ctrl</kbd> + click on URLs to
+Tip: on most terminals, you can <kbd>Ctrl</kbd> + click on URLs to
 open them on your browser.
