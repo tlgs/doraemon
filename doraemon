@@ -1,58 +1,54 @@
 #!/bin/bash
 
-
 version='0.2.0'
 
-die () {
-    printf '%s\n' "$1" >&2
-    exit 1
+die() {
+  printf '%s\n' "$1" >&2
+  exit 1
 }
 
-show_help () {
-    cat <<-EOF
+show_help() {
+  cat <<-EOF
 doraemon $version, el gato cosmico
 Collect a random item from your Pocket List
 
 Usage: doraemon [-hb]
-
     -h, --help        display this help message and exit
     -b, --browser     open item in your preferred \$BROWSER
-
 EOF
 }
 
 case $1 in
-    -h|--help)
-        show_help
-        exit
-        ;;
-    -b|--browser)
-	if ! [[ -v BROWSER ]]; then
-	    die 'ERROR: BROWSER environment variable not set'
-	fi
-        run_browser=true
-	;;
-    -?*)
-        die "ERROR: unknown option $1"
-        ;;
-    '')
-        ;;
-    *)
-        die "ERROR: program takes no arguments"
+  -h | --help)
+    show_help
+    exit
+    ;;
+  -b | --browser)
+    if ! [[ -v BROWSER ]]; then
+      die 'ERROR: BROWSER environment variable not set'
+    fi
+    run_browser=true
+    ;;
+  -?*)
+    die "ERROR: unknown option $1"
+    ;;
+  '') ;;
+  *)
+    die "ERROR: program takes no arguments"
+    ;;
 esac
 
 if ! [[ -v POCKET_CONSUMER_KEY && -v POCKET_ACCESS_TOKEN ]]; then
-    die 'ERROR: required environment variables not set'	
+  die 'ERROR: required environment variables not set'
 fi
-
 
 target='https://getpocket.com/v3/get'
 target+="?consumer_key=$POCKET_CONSUMER_KEY"
 target+="&access_token=$POCKET_ACCESS_TOKEN"
 
 declare -a arr
-readarray -t arr <<< "$(
-    curl -s "$target" |
+readarray -t arr <<<"$(
+  curl -s "$target" |
     jq -c '.list | .[] | {id: .item_id, title: .resolved_title}' |
     shuf -n 1 |
     jq -r '.id, .title'
@@ -60,18 +56,14 @@ readarray -t arr <<< "$(
 
 item_url="https://app.getpocket.com/read/${arr[0]}"
 
-
 if [[ "$run_browser" = true ]]; then
-    "$BROWSER" "$item_url" 2>/dev/null
-
+  "$BROWSER" "$item_url" 2>/dev/null
 elif [[ -t 1 ]]; then
-    tput setaf "$(shuf -i 214-231 -n 1)"
-    echo "${arr[1]}"
-    printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
-    tput sgr0
-    echo -e "$item_url\n"
-
+  tput setaf "$(shuf -i 214-231 -n 1)"
+  echo "${arr[1]}"
+  printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
+  tput sgr0
+  echo -e "$item_url\n"
 else
-    echo "$item_url"
-
+  echo "$item_url"
 fi
