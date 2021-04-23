@@ -23,7 +23,7 @@ Simple Bash script built with [curl](https://curl.haxx.se/) and
    https://app.getpocket.com/read/2859972659
 
    $ doraemon -h
-   doraemon 0.2.0, el gato cosmico
+   doraemon 0.2.1, el gato cosmico
    Collect a random item from your Pocket List
 
    Usage: doraemon [-hb]
@@ -32,6 +32,3 @@ Simple Bash script built with [curl](https://curl.haxx.se/) and
        -b, --browser     open item in your preferred $BROWSER
 
    ```
-
-Tip: on most terminals, you can <kbd>Ctrl</kbd> + click on URLs to
-open them on your browser.
