@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='0.2.1'
+version='0.3.0'
 
 die() {
   printf '%s\n' "$1" >&2
@@ -59,7 +59,7 @@ item_url="https://app.getpocket.com/read/${arr[0]}"
 if [[ "$run_browser" = true ]]; then
   "$BROWSER" "$item_url" 2>/dev/null &
 elif [[ -t 1 ]]; then
-  tput setaf "$(shuf -i 214-231 -n 1)"
+  tput setaf 31
   echo "${arr[1]}"
   printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
   tput sgr0
