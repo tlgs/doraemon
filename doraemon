@@ -55,13 +55,19 @@ readarray -t arr <<<"$(
 )"
 
 item_url="https://app.getpocket.com/read/${arr[0]}"
+title=${arr[1]}
 
 if [[ "$run_browser" = true ]]; then
   "$BROWSER" "$item_url" 2>/dev/null &
 elif [[ -t 1 ]]; then
+
+  if [[ ${#title} -gt 80 ]]; then
+    title="${title:0:77}..."
+  fi
+
   tput setaf 31
-  echo "${arr[1]}"
-  printf '%*s\n' ${#arr[1]} ' ' | tr ' ' '-'
+  echo "$title"
+  printf '%*s\n' ${#title} ' ' | tr ' ' '-'
   tput sgr0
 
   echo "$item_url"
