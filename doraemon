@@ -67,9 +67,9 @@ elif [[ -t 1 ]]; then
 
   tput setaf 31
   echo "$title"
-  printf '%*s\n' ${#title} ' ' | tr ' ' '-'
-  tput sgr0
+  printf '%.0s-' $(seq 1 ${#title}) && echo
 
+  tput sgr0
   echo "$item_url"
 else
   echo "$item_url"
