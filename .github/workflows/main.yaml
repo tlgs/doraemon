@@ -25,5 +25,5 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run shfmt
-        run: shfmt doraemon
+        run: shfmt -d -i 2 -ci -bn doraemon
         shell: sh
