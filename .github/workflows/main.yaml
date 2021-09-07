@@ -19,6 +19,7 @@ jobs:
 
   shfmt:
     runs-on: ubuntu-latest
+    container: mvdan/shfmt:latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
