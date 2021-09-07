@@ -15,7 +15,7 @@ jobs:
 
       - name: Run ShellCheck
         run: shellcheck doraemon
-        shell: bash
+        shell: sh
 
   shfmt:
     runs-on: ubuntu-latest
@@ -26,4 +26,4 @@ jobs:
 
       - name: Run shfmt
         run: shfmt doraemon
-        shell: bash
+        shell: sh
