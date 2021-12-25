@@ -8,7 +8,7 @@ die() {
 }
 
 show_help() {
-  cat <<-EOF
+  cat <<- EOF
 Usage: doraemon [OPTIONS]
 
   doraemon $version, el gato cosmico.
@@ -49,7 +49,7 @@ target+="?consumer_key=$POCKET_CONSUMER_KEY"
 target+="&access_token=$POCKET_ACCESS_TOKEN"
 
 declare -a arr
-readarray -t arr <<<"$(
+readarray -t arr <<< "$(
   curl -s "$target" \
     | jq -c '.list | .[] | {id: .item_id, title: .resolved_title}' \
     | shuf -n 1 \
@@ -60,7 +60,7 @@ item_url="https://app.getpocket.com/read/${arr[0]}"
 title=${arr[1]}
 
 if [[ "$run_browser" = true ]]; then
-  "$BROWSER" "$item_url" 2>/dev/null &
+  "$BROWSER" "$item_url" 2> /dev/null &
 elif [[ -t 1 ]]; then
 
   if [[ ${#title} -gt 80 ]]; then
