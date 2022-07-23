@@ -3,20 +3,19 @@
 version='0.3.0'
 
 die() {
-  printf '%s\n' "$1" >&2
+  printf 'doraemon: %s\n' "$1" >&2
   exit 1
 }
 
 show_help() {
   cat <<- EOF
-Usage: doraemon [OPTIONS]
+usage: doraemon [-h] [-b]
 
-  doraemon $version, el gato cosmico.
-  Collect a random item from your Pocket List.
+Collect a random item from your Pocket List.
 
-Options:
-  -b, --browser     Open item in your preferred \$BROWSER.
-  -h, --help        Show this message and exit.
+options:
+  -b, --browser     open item in your preferred \$BROWSER
+  -h, --help        show this help message and exit
 EOF
 }
 
@@ -27,21 +26,21 @@ case $1 in
     ;;
   -b | --browser)
     if ! [[ -v BROWSER ]]; then
-      die 'ERROR: BROWSER environment variable not set'
+      die 'BROWSER environment variable not set'
     fi
     run_browser=true
     ;;
   -?*)
-    die "ERROR: unknown option $1"
+    die "unknown option $1"
     ;;
   '') ;;
   *)
-    die "ERROR: program takes no arguments"
+    die "program takes no arguments"
     ;;
 esac
 
 if ! [[ -v POCKET_CONSUMER_KEY && -v POCKET_ACCESS_TOKEN ]]; then
-  die 'ERROR: required environment variables not set'
+  die 'required environment variables not set'
 fi
 
 target='https://getpocket.com/v3/get'
