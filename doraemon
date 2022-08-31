@@ -45,9 +45,15 @@ target='https://getpocket.com/v3/get'
 target+="?consumer_key=$POCKET_CONSUMER_KEY"
 target+="&access_token=$POCKET_ACCESS_TOKEN"
 
+raw=$(curl -s "$target")
+exit_code=$?
+if [[ "$exit_code" -ne 0 ]]; then
+  die "curl: $exit_code"
+fi
+
 declare -a arr
 readarray -t arr <<< "$(
-  curl -s "$target" \
+  echo "$raw" \
     | jq -c '.list | .[] | {id: .item_id, title: .resolved_title}' \
     | shuf -n 1 \
     | jq -r '.id, .title'
