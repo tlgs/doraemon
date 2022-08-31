@@ -13,8 +13,8 @@ Simple Bash script built with [curl](https://curl.haxx.se/) and
 
  ## Usage
 
-Set the `POCKET_CONSUMER_KEY` and `POCKET_ACCESS_TOKEN` environment variables
-(follow the [Pocket API documentation](https://getpocket.com/developer/) to get yours).
+Set the `POCKET_CONSUMER_KEY` and `POCKET_ACCESS_TOKEN` environment variables.
+Follow the [Pocket API documentation](https://getpocket.com/developer/) to get yours.
 
 Drop the script somewhere in `PATH` or create a symbolic link
-(i.e. `ln -s /full/path/doraemon ~/bin/doraemon`).
+(e.g. `ln -s /full/path/to/doraemon ~/bin/doraemon`).
